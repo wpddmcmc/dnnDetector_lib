@@ -5,86 +5,86 @@
 
 Object detection based on Opencv.dnn, easy to use
 
-[中文](README_ch.md)
-
-------
-
-Author: Michael.Chen
-
-Website: www.tgeek.tech
-
-Contact: m.c.chen@outlook.com
+[English](README.md)
 
 ---
 
-Project build and test o OpenCV4.1, Any OpenCV>=3.3 will be ok
+作者: Michael.Chen
 
-## Requirements
+网站: www.tgeek.tech
+
+联系我: m.c.chen@outlook.com
+
+---
+
+项目在OpenCV4.1编译与测试, 任何 OpenCV>=3.3 版本均可
+
+## 依赖
 
 OpenCV
 
 OpenCV_contrib
 
-## Files structure
+## 文件结构
 
-**src/:** source file, the example programe - demo.cpp	
+**src/:** 源码，示例程序- demo.cpp	
 
-**include/:** the head file - detector.hpp
+**include/:** 头文件 - detector.hpp
 
-**lib/:** libary file - libdnnDetector.so
+**lib/:** 库文件 - libdnnDetector.so
 
-**param/:** parameter file - param.xml
+**param/:** 配置文件 - param.xml
 
-**dnn_nets/:** Dnn networks configration, weight and labels files
+**dnn_nets/:** 神经网络文件 - 网络结构，模型，标签文件
 
-**video/:** videos for test
+**video/:** 测试视频
 
-## How to use
+## 使用
 
-### Build
+### 编译
 
-#### Create a folder to build project
+#### 创建文件夹用来编译项目
 
 ```bash
 mkdir build
 ```
 
-#### Compile
+#### 编译
 
-If you have more than one version of OpenCV. Set  path to which you want to use by uncommiting and modifying #line9 of ```CMakeLists.txt```
+如果有多版本OpenCV，去掉 ```CMakeLists.txt```第9行注释并修改
 
-For example, your OpenCV path if "/home/user/opencv_4.1". Then modify ```CMakeLists.txt``` as
+例如, OpenCV目录在 "/home/user/opencv_4.1". 修改 ```CMakeLists.txt``` 
 
 ```cmake
 set(OpenCV_DIR "/home/user/opencv_4.1/build/")
 ```
 
- Then run ```cmake``
+运行 ``cmake``
 
 ```
 cd build/
 cmake ..
 ```
 
-Run ```make ``` to compile
+运行 ```make ``` 进行编译
 
 ```bash
 make
 ```
 
-## Run 
+## 运行 
 
 ```bash
 ./dnnDetector
 ```
 
-## Change paramters
+## 参数修改
 
-Any change of paramters **do not need to rebuild** the project
+任何参数的修改 **不需要重新编译** 
 
-Modify ```param/param.xml``` to change paramters
+修改 ```param/param.xml``` 改变参数
 
-### Prediction configrations
+### 预测参数
 
 line5 - line7
 
@@ -94,9 +94,9 @@ line5 - line7
 <nms_thresh>0.25</nms_thresh>       <!-->nms threshold<-->
 ```
 
-### for Yolo network
+### Yolo 配置
 
-line10 - line14, you can change to any Yolo network, any Yolo model you want to use
+line10 - line14, 可以选择任意yolo网络或模型
 
 ```xml
 <Yolo_meanVal>1</Yolo_meanVal> 
@@ -106,9 +106,9 @@ line10 - line14, you can change to any Yolo network, any Yolo model you want to 
 <coco_name>../dnn_nets/yolo/coco.names</coco_name>
 ```
 
-### for SSD network
+### SSD 配置
 
-line17 - line22, you can change to any SSD network, any SSD model you want to use
+line17 - line22, 可以选择任意SSD网络或模型
 
 ```xml
 <ssd_meanVal>127.5</ssd_meanVal> 
@@ -119,19 +119,19 @@ line17 - line22, you can change to any SSD network, any SSD model you want to us
 </opencv_storage>
 ```
 
-## Demo
+ ## Demo
 
 对demo.cpp进行详解
 
-### head file
+### 头文件
 
-add head file
+添加头文件
 
 ```c++
 #include "detector.hpp"
 ```
 
-all the head files used was writen in ```include/detector.hpp```
+使用到的所有头文件均在```include/detector.hpp```中提到
 
 ```c++
 #include <opencv2/dnn.hpp>
@@ -140,18 +140,18 @@ all the head files used was writen in ```include/detector.hpp```
 #include <vector>
 ```
 
-### Network loading
+### 网络读取
 
- Instantiate```Detector``` class, and read network
+实例化 ```Detector``` 类, 并且读取网络
 
 ```c++
 	Detector detector;
 	cv::dnn::Net net = detector.net;
 ```
 
-network initialization was writen in ```include/detector.hpp``` 
+网络初始化在 ```include/detector.hpp``` 中
 
-### Video or camera reading
+### 视频或摄像头读取
 
 ```c++
 cv::VideoCapture capture;
@@ -163,23 +163,23 @@ else
 cv::Mat frame, output;
 while (capture.read(frame))
 {
-  // Detection
+  // 检测
 }
 ```
 
-### Detection
+### 检测
 
-Write in ```while``` 
+```while``` 循环中写
 
-#### Get results
+#### 得到预测结果
 
-Use ```Detector.thePredictor(cv::Mat frame, cv::dnn::Net net)```
+执行 ```Detector.thePredictor(cv::Mat frame, cv::dnn::Net net)```
 
 ```c++
 detector.thePredictor(frame, net);			// do detection
 ```
 
-#### Draw results and display
+#### 画出结果以及显示
 
 ```c++
 frame.copyTo(output);
@@ -196,29 +196,29 @@ if (c == 27)
 }
 ```
 
-end of loop
+循环结束
 
-#### Release video
+#### 释放摄像头结束程序
 
 ```c++
 capture.release();
 return 0;
 ```
 
-## class Detector  public functions and variables
+##Detector类 公共函数与变量
 
-### Constructor Detector()
+### 构造函数 Detector()
 
-#### Read configuration file
+#### 读取配置文件
 
 ```c++
 // Read configration file
 cv::FileStorage setting_fs("../param/param.xml", cv::FileStorage::READ);       
 ```
 
-#### Load prediction parameter
+#### 传入预测参数
 
-Network type，network confidence threshold，non maximum suppression threshold
+网络类型，置信度阈值，非极大值抑制阈值
 
 ```c++
 setting_fs["net_type"]>>net_type;                  
@@ -226,7 +226,7 @@ setting_fs["thresh"]>>thresh;
 setting_fs["nms_thresh"]>>nms_thresh;
 ```
 
-#### If use YOLO, load YOLO configurations
+#### 如果为YOLO 读取YOLO配置
 
 ```c++
 // If use YoloV3
@@ -242,9 +242,9 @@ setting_fs["Yolo_meanVal"]>>meanVal;
 }
 ```
 
-#### If use SSD, load SSD configurations
+#### 如果为SSD读取SSD配置
 
-```c++
+```C++
 // If use SSD
 else{
 std::cout << "INFO: Found \"net_type==0\", using **SSD** network" << std::endl;
@@ -258,7 +258,7 @@ setting_fs["ssd_meanVal"]>>meanVal;
 }
 ```
 
-#### Read network structure
+#### 读取网络结构
 
 ```c++
 // Set network
@@ -270,7 +270,7 @@ exit(-1);
 else    std::cout<<"INFO: Load network sucessfully"<<std::endl;
 ```
 
-#### Read lables file
+#### 读取标签文件
 
 ```c++
 // Read lable file
@@ -279,33 +279,33 @@ std::string line;
 while (std::getline(ifs, line)) classes.push_back(line);
 ```
 
-### Public variables
+### 公共变量
 
 ```c++
 std::vectorcv::Rect out_boxes		// Bounding box
 
-std::vectorcv::Point out_centers	// Bounding box center positions
+std::vectorcv::Point out_centers	// Bounding box 中心坐标
 
-std::vectorstd::string out_names	// name of objects was detected
+std::vectorstd::string out_names	// 检测到的物体名称
 
-std::vector<float> out_confidences	// confidence of objects was detected
+std::vector<float> out_confidences	// 检测到的物体置信度
 
 ```
 
-### Public functions
+### 公共函数
 
 ```c++
-// do prediction
-// input		-image to be predicted
-// 				-Network
+// 进行预测
+// 输入参数为	-待预测图像
+// 				-网络
 void thePredictor(cv::Mat frame, cv::dnn::Net net);  
-// Draw result  
-// Inputs		-input/output image
-//				-vector of object names
-//				-vector of BBOX
-//				-vector of confidences
-//				-vector of objects centers
-//				-wether draw fps
+// 画出结果  
+// 输入参数为	-输入/输出图像
+//				-物体名称向量
+//				-物体BBOX向量
+//				-置信度向量
+//				-物体中心点向量
+//				-是否绘制FPS
 void drawResult(cv::Mat& frame, std::vector<std::string> out_names, std::vector<cv::Rect> out_boxes,std::vector<float> confidences,std::vector<cv::Point> out_centers,bool if_fps); 
 ```
 
