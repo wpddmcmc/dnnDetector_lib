@@ -3,7 +3,7 @@
 
 ![](https://img.shields.io/badge/linux%20build-pass-green.svg)
 
-Object detection based on Opencv.dnn, easy to use
+![](https://img.shields.io/badge/Opencv-4.5.1-green.svg?style=social&logo=opencv)
 
 [English](README.md)
 
@@ -16,15 +16,135 @@ Object detection based on Opencv.dnn, easy to use
 联系我: m.c.chen@outlook.com
 
 ---
-
-项目在OpenCV4.1编译与测试, 任何 OpenCV>=3.3 版本均可
+## 描述
+基于OpenCV DNN的目标识别与检测程序
 
 ## 依赖
+### 依赖安装
+```
+依赖：
+OpenCV >= 4.1	# install with dnn, opention: cuda, cublas 
+OpenCV_contrib >= 4.1	# same version as OpenCV
+```
+依赖安装教程，以OpenCV 4.5.1为例
+```bash
+# 在下面链接下载对应版本opencv的Source Code包，https://github.com/opencv/opencv/releases
+# 将压缩包解压缩到本地，比如~/apps
+# 在下面链接下载和上面opencv版本相同的contrib包，https://github.com/opencv/opencv_contrib/releases
+# 解压并放入opencv目录内部,比如 ~/apps/opencv-4.5.1
+# 进入opencv文件夹进行操作
+$ cd ~/apps/opencv-4.5.1
+$ mkdir build
+$ cd build
+# 安装了cuda加速运行下面
+$ cmake -D CMAKE_BUILD_TYPE=RELEASE \
+-D CMAKE_INSTALL_PREFIX=/usr/local \
+-D WITH_TBB=ON \
+-D WITH_V4L=ON \
+-D WITH_CUDA=ON \
+-D ENABLE_FAST_MATH=1 \
+-D CUDA_FAST_MATH=1 \
+-D CUDA_NVCC_FLAGS="-D_FORCE_INLINES" \
+-D WITH_CUBLAS=1 \
+-D OPENCV_EXTRA_MODULES_PATH=../opencv_contrib-4.5.1/modules \
+-D OPENCV_DNN_CUDA=ON \
+-D OPENCV_GENERATE_PKGCONFIG=ON ..
 
-OpenCV
-
-OpenCV_contrib
-
+# 无cuda用户运行下面
+$ cmake -D CMAKE_BUILD_TYPE=RELEASE \
+-D CMAKE_INSTALL_PREFIX=/usr/local \
+-D WITH_TBB=ON \
+-D WITH_V4L=ON \
+-D OPENCV_EXTRA_MODULES_PATH=../opencv_contrib-4.5.1/modules \
+-D OPENCV_GENERATE_PKGCONFIG=ON ..
+```
+### 模型下载
+```bash
+# SSD模型自行搜索
+# YOLO模型 https://pjreddie.com/darknet/yolo/
+# 新建文件夹 dnn_nets/yolo，将cfg和weights放入其中
+# 并在dnn_nets/yolo新建文件coco.names填入
+person
+bicycle
+car
+motorbike
+aeroplane
+bus
+train
+truck
+boat
+traffic light
+fire hydrant
+stop sign
+parking meter
+bench
+bird
+cat
+dog
+horse
+sheep
+cow
+elephant
+bear
+zebra
+giraffe
+backpack
+umbrella
+handbag
+tie
+suitcase
+frisbee
+skis
+snowboard
+sports ball
+kite
+baseball bat
+baseball glove
+skateboard
+surfboard
+tennis racket
+bottle
+wine glass
+cup
+fork
+knife
+spoon
+bowl
+banana
+apple
+sandwich
+orange
+broccoli
+carrot
+hot dog
+pizza
+donut
+cake
+chair
+sofa
+pottedplant
+bed
+diningtable
+toilet
+tvmonitor
+laptop
+mouse
+remote
+keyboard
+cell phone
+microwave
+oven
+toaster
+sink
+refrigerator
+book
+clock
+vase
+scissors
+teddy bear
+hair drier
+toothbrush
+```
 ## 文件结构
 
 **src/:** 源码，示例程序- demo.cpp	
@@ -78,13 +198,13 @@ make
 ./dnnDetector
 ```
 
-## 参数修改
+### 参数修改
 
 任何参数的修改 **不需要重新编译** 
 
 修改 ```param/param.xml``` 改变参数
 
-### 预测参数
+#### 预测参数
 
 line5 - line7
 
@@ -94,7 +214,7 @@ line5 - line7
 <nms_thresh>0.25</nms_thresh>       <!-->nms threshold<-->
 ```
 
-### Yolo 配置
+#### Yolo 配置
 
 line10 - line14, 可以选择任意yolo网络或模型
 
@@ -106,7 +226,7 @@ line10 - line14, 可以选择任意yolo网络或模型
 <coco_name>../dnn_nets/yolo/coco.names</coco_name>
 ```
 
-### SSD 配置
+#### SSD 配置
 
 line17 - line22, 可以选择任意SSD网络或模型
 
@@ -119,7 +239,7 @@ line17 - line22, 可以选择任意SSD网络或模型
 </opencv_storage>
 ```
 
- ## Demo
+## API使用Demo
 
 对demo.cpp进行详解
 
